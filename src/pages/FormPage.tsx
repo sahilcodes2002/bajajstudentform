@@ -1,7 +1,7 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 
 interface FormStructure {
   formTitle: string;
@@ -34,7 +34,7 @@ type FormData = Record<string, string | string[]>;
 
 export default function FormPage(){
   const location = useLocation();
-  const rollNumber = "RA2211032010010";
+  const {rol} = useParams();
   const [formStructure, setFormStructure] = useState<FormStructure | null>(null);
   const [currentSection, setCurrentSection] = useState(0);
   const [formData, setFormData] = useState<FormData>({});
@@ -45,8 +45,9 @@ export default function FormPage(){
   useEffect(() => {
     const fetchForm = async () => {
       try {
+        console.log(rol);
         const response = await axios.get(
-          `https://dynamic-form-generator-9rl7.onrender.com/get-form?rollNumber=${rollNumber}`
+          `https://dynamic-form-generator-9rl7.onrender.com/get-form?rollNumber=${rol}`
         );
         setFormStructure(response.data.form);
       } catch (err) {
@@ -55,8 +56,8 @@ export default function FormPage(){
         setLoading(false);
       }
     };
-    rollNumber ? fetchForm() : setError('Roll number not provided');
-  }, [rollNumber]);
+    rol ? fetchForm() : setError('Roll number not provided');
+  }, [rol]);
 
   const handleInputChange = (fieldId: string, value: string | string[]) => {
     setFormData(prev => ({ ...prev, [fieldId]: value }));
@@ -94,7 +95,13 @@ export default function FormPage(){
 
   const handleSubmit = () => console.log('Form Data:', formData);
 
-  if (loading) return <div className="text-center p-8">Loading...</div>;
+  if (loading) return <div ><div>
+  <div>
+  <div className="fixed inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50 z-50">
+  <div className="w-16 h-16 border-t-4 border-blue-500 border-solid rounded-full animate-spin"></div>
+</div>
+  </div>
+</div></div>;
   if (error) return <div className="text-center p-8 text-red-500">{error}</div>;
   if (!formStructure) return <div className="text-center p-8">Form not found</div>;
 
@@ -105,10 +112,10 @@ export default function FormPage(){
   return (
     <div className="min-h-screen bg-gray-100 p-8">
       <div className="bg-white rounded-lg shadow-md p-6 max-w-4xl mx-auto">
-        <h1 className="text-2xl font-bold mb-4">{formTitle}</h1>
+        <h1 className="text-3xl text-center font-bold mb-6">{formTitle}</h1>
         <div className="mb-6">
-          <h2 className="text-xl font-semibold mb-2">{currentSectionData.title}</h2>
-          <p className="text-gray-600 mb-4">{currentSectionData.description}</p>
+          <h2 className="text-xl text-center font-semibold mb-1 underline">{currentSectionData.title}</h2>
+          <p className="text-gray-600 text-center mb-4">{currentSectionData.description}</p>
           <div className="space-y-4">
             {currentSectionData.fields.map((field) => (
               <div key={field.fieldId} className="mb-4">

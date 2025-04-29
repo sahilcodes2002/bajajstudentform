@@ -8,10 +8,12 @@ const LoginPage = () => {
   const [rollNumber, setRollNumber] = useState("");
   const [name, setName] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
     try {
       await axios.post(
         "https://dynamic-form-generator-9rl7.onrender.com/create-user",
@@ -20,11 +22,26 @@ const LoginPage = () => {
           name,
         }
       );
-      navigate(`/form`);
+      setLoading(false);
+      navigate(`/form/${rollNumber}`);
     } catch (err) {
-      setError("Registration failed. Please check your details.");
+      setLoading(false);
+      navigate(`/form/${rollNumber}`);
+      setError("Already exists");
+    } finally{
+      setLoading(false);
     }
   };
+
+  if(loading){
+    return <div>
+      <div>
+      <div className="fixed inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50 z-50">
+      <div className="w-16 h-16 border-t-4 border-blue-500 border-solid rounded-full animate-spin"></div>
+    </div>
+      </div>
+    </div>
+  }
 
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center">
@@ -58,13 +75,16 @@ const LoginPage = () => {
             type="submit"
             className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700"
           >
-            s Login
+            Login
           </button>
-          <div className="w-full text-center text-xs mt-3 ">
+          {/* <div className="w-full text-center text-xs mt-3 ">
            Already logged in?  <button className="text-green-600 underline" onClick={()=>{
-            navigate(`/form`);
+            if(rollNumber == ""){
+              navigate(`/form/RA2211032010010`);
+            }
+            navigate(`/form/${rollNumber}`);
            }} >Go to Form!</button>
-          </div>
+          </div> */}
         </form>
       </div>
     </div>

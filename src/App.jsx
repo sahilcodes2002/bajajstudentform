@@ -23,7 +23,7 @@ function App() {
         <HashRouter>
           <Routes>
             <Route path='/' element={<LoginPage/>} />
-            <Route path='/form' element={<FormPage/>} />
+            <Route path='/form/:rol' element={<FormPage/>} />
           </Routes>
         </HashRouter>
       </RecoilRoot>

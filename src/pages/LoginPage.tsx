@@ -20,7 +20,7 @@ const LoginPage = () => {
           name,
         }
       );
-      navigate("/form", { state: { rollNumber } });
+      navigate(`/form`);
     } catch (err) {
       setError("Registration failed. Please check your details.");
     }
@@ -60,6 +60,11 @@ const LoginPage = () => {
           >
             s Login
           </button>
+          <div className="w-full text-center text-xs mt-3 ">
+           Already logged in?  <button className="text-green-600 underline" onClick={()=>{
+            navigate(`/form`);
+           }} >Go to Form!</button>
+          </div>
         </form>
       </div>
     </div>

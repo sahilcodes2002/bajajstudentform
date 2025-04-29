@@ -32,9 +32,9 @@ interface FormField {
 
 type FormData = Record<string, string | string[]>;
 
-const FormPage = () => {
+export default function FormPage(){
   const location = useLocation();
-  const rollNumber = location.state?.rollNumber;
+  const rollNumber = "RA2211032010010";
   const [formStructure, setFormStructure] = useState<FormStructure | null>(null);
   const [currentSection, setCurrentSection] = useState(0);
   const [formData, setFormData] = useState<FormData>({});
@@ -232,5 +232,3 @@ const FormPage = () => {
     }
   }
 };
-
-export default FormPage;

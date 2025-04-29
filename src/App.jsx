@@ -1,6 +1,5 @@
 import { HashRouter, Routes, Route } from 'react-router-dom';
 import { Toaster } from "react-hot-toast";
-import DoctorsPage from './pages/DoctorsPage';
 import LoginPage from './pages/LoginPage';
 import { RecoilRoot } from 'recoil';
 import FormPage from './pages/FormPage';
